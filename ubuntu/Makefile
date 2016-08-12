@@ -29,7 +29,6 @@ $(UBUNTU):
 
 install:
 	cp vsftpd-anon.cfg /etc
-	cp $(KS_FILE) $(BASE_DIR)  
 	cp $(PRE_FILE) $(FTP_DIR)  
 	cp $(POST_SH) $(FTP_DIR)  
 
@@ -39,6 +38,5 @@ run: $(UBUNTU) install
 	mount -o loop ./$(UBUNTU)  /var/ftp/$(DIST_NAME)/repo
 	-killall vsftpd
 	vsftpd /etc/vsftpd-anon.cfg &
-#	pixiecore -debug -kernel /var/ftp/$(DIST_NAME)/repo/install/netboot/ubuntu-installer/amd64/linux -initrd /var/ftp/$(DIST_NAME)/repo/install/netboot/ubuntu-installer/amd64/initrd.gz --cmdline "ks=$(KS_URL)"
 	pixiecore -debug -kernel /var/ftp/$(DIST_NAME)/repo/install/netboot/ubuntu-installer/amd64/linux -initrd /var/ftp/$(DIST_NAME)/repo/install/netboot/ubuntu-installer/amd64/initrd.gz --cmdline "auto url=$(PRE_URL) DEBCONF_DEBUG=5 dbg/flags=all-x ramdisk_size=14984 locale=en_US.UTF-8 console-setup/ask_detect=false keyboard-configuration/layoutcode=es console-setup/layoutcode=string us hostname=unassigned-hostname domain=unassigned-domain"
 
