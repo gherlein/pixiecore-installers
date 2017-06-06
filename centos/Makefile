@@ -15,6 +15,7 @@ CENTOS_URL= http://mirrors.usc.edu/pub/linux/distributions/centos/7/isos/x86_64/
 
 CENTOS    = CentOS-7-x86_64-Minimal-1611.iso
 
+ANON_FTP  = vsftpd-anon.cfg
 
 dummy:
 
@@ -32,15 +33,16 @@ install:
 	echo "deb https://packagecloud.io/danderson/pixiecore/debian stretch main" | sudo tee /etc/apt/sources.list.d/pixiecore.list
 	sudo apt-get update
 	sudo apt-get install pixiecore
+
+run: $(CENTOS)
 	sudo mkdir -p $(BASE_DIR)
 	sudo mkdir -p $(REPO_DIR)
 	sudo apt-get install -y vsftpd
 	sudo cp $(KS_FILE) $(DIST_DIR)  
-
-run: $(CENTOS)
+	sudo cp $(ANON_FTP) /etc/vsftpd.cfg
 	-sudo umount /var/ftp/$(DIST_NAME)/repo
 	sudo mount -o loop ./$(CENTOS)  /var/ftp/$(DIST_NAME)/repo
-	-killall vsftpd
-	vsftpd ./vsftpd-anon.cfg &
+	sudo killall -9 vsftpd
+	/usr/sbin/vsftpd /etc/vsftpd-anon.cfg &
 	sudo pixiecore -debug -listen-addr $(IP) -kernel $(REPO_DIR)/isolinux/vmlinuz -initrd $(REPO_DIR)/isolinux/initrd.img --cmdline "inst-repo=$(REPO_URL) ks=$(KS_URL)"
 
