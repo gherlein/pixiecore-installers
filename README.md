@@ -24,7 +24,9 @@ make install
 make run
 ```
 
-You will have a pixiecore instance running serving content to hosts netbooting.  
+You will have a pixiecore instance running serving content to hosts netbooting.  Read the Makefile - it's simple.  It uses an FTP server and mounts the ISO and launches pixiecore.  Tell your hardware to PXE boot and it will go through the motions, including running the kickstart/preseed file to handle postinstallation tasks.
+
+This is intended as a tool to help automate the provisioning of a small set of machines as a precursor to setting up k8s or other nifty things on top.  
 
 
 ## Centos7
