@@ -42,5 +42,5 @@ run: $(CENTOS)
 	sudo mount -o loop ./$(CENTOS)  /var/ftp/$(DIST_NAME)/repo
 	-killall vsftpd
 	vsftpd ./vsftpd-anon.cfg &
-	sudo pixiecore -debug -listen-addr $(IP) -kernel /var/ftp/centos7/repo/isolinux/vmlinuz -initrd /var/ftp/centos7/repo/isolinux/initrd.img --cmdline "inst-repo=$(REPO_URL) ks=$(KS_URL)"
+	sudo pixiecore -debug -listen-addr $(IP) -kernel $(REPO_DIR)/isolinux/vmlinuz -initrd $(REPO_DIR)/isolinux/initrd.img --cmdline "inst-repo=$(REPO_URL) ks=$(KS_URL)"
 
